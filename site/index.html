@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="description" content="Private MCCQE study bank: notes, exam-style questions and flashcards.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#b0173f">
+<title>Med Notes Bank</title>
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/app.css?v=943985dec4">
+<script src="assets/vault.js?v=943985dec4" defer></script>
+<script src="assets/app.js?v=943985dec4" defer></script>
+</head>
+<body class="locked">
+<section id="lock" class="lock" role="main" aria-label="Unlock Med Notes Bank" hidden>
+ <div class="lock-card">
+  <h1 class="brand">Med Notes <b>Bank</b></h1>
+  <p>Private study bank for MCCQE preparation. Enter the password to open it.</p>
+  <form id="lockForm" autocomplete="on" novalidate>
+   <input type="text" name="username" value="med-notes-bank" autocomplete="username" hidden>
+   <label for="lockPw">Password</label>
+   <div class="pwrow"><input class="inp" id="lockPw" name="password" type="password" autocomplete="current-password" autocapitalize="none" spellcheck="false" required aria-describedby="lockErr"><button type="button" class="btn ghost small" id="lockShow" aria-pressed="false" aria-label="Show password">Show</button></div>
+   <p class="lock-err" id="lockErr" role="alert" aria-live="assertive"></p>
+   <label class="lock-rem"><input type="checkbox" id="lockRemember" checked> Keep me unlocked on this device</label>
+   <button class="btn" id="lockGo" type="submit" style="width:100%">Unlock</button>
+  </form>
+  <p id="lockUnsupported" hidden>This browser cannot open the encrypted bank. Use a current version of Chrome, Edge, Firefox or Safari.</p>
+  <p class="lock-foot">Content is encrypted. Without the password it cannot be read, even from the source code.</p>
+ </div>
+</section>
+
+
+<header class="top"><div class="wrap bar">
+ <div class="brand">Med Notes <b>Bank</b></div>
+ <span class="sync" id="sync" aria-live="polite"></span>
+ <nav class="tabs" aria-label="Main">
+  <a href="#home" data-v="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+  <a href="#test" data-v="test"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Test</a>
+  <a href="#cards" data-v="cards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>Cards</a>
+  <a href="#browse" data-v="browse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Notes</a>
+  <a href="#more" data-v="more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>More</a>
+ </nav>
+</div></header>
+<main class="wrap" id="main"><p class="empty">Loading your question bank…</p></main>
+<div class="zoom" id="zoom" role="dialog" aria-label="Source image viewer"><div class="zbar"><button type="button" id="zPrev" aria-label="Previous image">‹ Prev</button><span id="zCount"></span><button type="button" id="zNext" aria-label="Next image">Next ›</button><button type="button" id="zClose" aria-label="Close viewer">Close</button></div><img alt="Source screenshot"></div>
+<dialog id="report"><form method="dialog" id="reportForm">
+ <h3 style="font-size:22px;margin-bottom:6px">Report a problem</h3>
+ <p class="muted" style="margin:0 0 12px;font-size:14px" id="reportQ"></p>
+ <div class="chips" id="reportWhy" role="group" aria-label="Problem type">
+  <button type="button" class="chip" aria-pressed="false" data-why="Wrong answer">Wrong answer</button>
+  <button type="button" class="chip" aria-pressed="false" data-why="Ambiguous">Ambiguous</button>
+  <button type="button" class="chip" aria-pressed="false" data-why="Typo / formatting">Typo / formatting</button>
+  <button type="button" class="chip" aria-pressed="false" data-why="Not Canadian guidance">Not Canadian guidance</button>
+ </div>
+ <p style="margin:14px 0 6px;font-size:14px">Details (optional)</p>
+ <textarea id="reportNote" aria-label="Details"></textarea>
+ <div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn ghost small" value="cancel">Cancel</button><button class="btn small" value="send" id="reportSend">Send report</button></div>
+</form></dialog>
+<dialog id="finishDlg"><h3 style="font-size:22px;margin-bottom:6px">Finish this test?</h3>
+ <p id="finishMsg" style="margin:0 0 14px"></p>
+ <div class="row" style="justify-content:flex-end"><button class="btn ghost small" id="fGoUn">Go to first unanswered</button><button class="btn ghost small" id="fGoMk">Review marked</button><button class="btn small" id="fFinish">Finish test</button></div>
+ <button class="linkbtn" id="fCancel" style="margin-top:6px">Keep working</button></dialog>
+<dialog id="labsDlg" class="wide"><div class="th"><h3 style="font-size:22px">Lab values</h3><button class="btn ghost small" id="labsClose">Close</button></div>
+ <p class="muted" style="font-size:13px;margin:4px 0 0">Typical adult reference ranges in SI units. Your lab's ranges may differ.</p>
+ <input class="inp" id="labsQ" type="search" placeholder="Filter, e.g. sodium" aria-label="Filter lab values" style="margin-top:10px">
+ <div class="conv" aria-label="Unit converter"><input class="inp" id="cvVal" type="number" inputmode="decimal" placeholder="Value" aria-label="Value to convert"><select class="inp" id="cvType" aria-label="Conversion">
+  <option value="glu">Glucose mg/dL → mmol/L</option><option value="cre">Creatinine mg/dL → µmol/L</option><option value="chol">Cholesterol (LDL, HDL, total) mg/dL → mmol/L</option><option value="tg">Triglycerides mg/dL → mmol/L</option><option value="bili">Bilirubin mg/dL → µmol/L</option><option value="ca">Calcium mg/dL → mmol/L</option><option value="hb">Hemoglobin g/dL → g/L</option><option value="bun">BUN mg/dL → urea mmol/L</option></select><b id="cvOut" aria-live="polite">—</b></div>
+ <div class="dlgbody" id="labsBody"></div></dialog>
+<dialog id="keysDlg"><div class="th"><h3 style="font-size:22px">Keyboard shortcuts</h3><button class="btn ghost small" id="keysClose">Close</button></div>
+ <table class="keys"><tbody>
+ <tr><td><kbd>1</kbd>–<kbd>4</kbd> or <kbd>A</kbd>–<kbd>D</kbd></td><td>Choose an answer</td></tr>
+ <tr><td><kbd>X</kbd> then <kbd>1</kbd>–<kbd>4</kbd></td><td>Cross out an option</td></tr>
+ <tr><td><kbd>Enter</kbd></td><td>Submit answer / next question</td></tr>
+ <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Previous / next question (exam mode)</td></tr>
+ <tr><td><kbd>F</kbd></td><td>Mark for review</td></tr>
+ <tr><td><kbd>L</kbd></td><td>Lab values</td></tr>
+ <tr><td><kbd>N</kbd></td><td>Jump to your note (after answering)</td></tr>
+ <tr><td><kbd>Space</kbd>, then <kbd>1</kbd>–<kbd>4</kbd></td><td>Flashcards: reveal, then rate</td></tr>
+ <tr><td><kbd>/</kbd></td><td>Search notes</td></tr>
+ <tr><td><kbd>?</kbd></td><td>This list</td></tr>
+ <tr><td><kbd>Esc</kbd></td><td>Close a viewer or dialog</td></tr></tbody></table></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+
+<noscript><p style="padding:24px">Med Notes Bank needs JavaScript enabled.</p></noscript>
+</body>
+</html>

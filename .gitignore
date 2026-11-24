@@ -1,0 +1,8 @@
+# Plaintext content and secrets must never be committed
+*.json.plain
+*.pdf
+!site/**/*.pdf.enc
+.secrets/
+__pycache__/
+.DS_Store
+node_modules/
