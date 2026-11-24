@@ -2,7 +2,7 @@
 
 A private, mobile-first study bank for the **MCCQE** (Medical Council of Canada Qualifying Examination), built from about 2,000 study screenshots: deduplicated, fact-checked against Canadian guidelines, and turned into notes, exam-style questions, flashcards and a printable reference.
 
-**Live site:** https://YOUR-USERNAME.github.io/med-notes-bank/ (password required)
+**Live site:** https://scsasimonis.github.io/med-notes-bank/ (password required)
 
 <p>
 <img src="docs/lock.png" width="200" alt="Lock screen">
